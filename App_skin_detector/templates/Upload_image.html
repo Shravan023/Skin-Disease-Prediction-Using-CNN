@@ -1,0 +1,53 @@
+{% extends 'Base.html'%}
+{% block content%}
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+    {% endfor %}
+
+{% endif %}
+{%load static%}
+
+
+
+
+<div style="background-image:  url('/media/manage_medicine.jpg'); background-repeat:no-repeat;background-size:cover;  height:668px; width:100%;">
+    <br>
+
+    <div class="container" style="display: flex;justify-content: center;align-content: center;border: solid 2px;border-radius: 2px;height: 500px;width: 500px;background-color: rgba(108, 122, 137,0.5);">
+        <br>
+    
+        <div class="row" >
+            <div style="display:flex;justify-content: center;align-content: center;padding-top: 5px;background-color: rgba(255,253,208,0.5)">
+                <h2>Upload_Image</h2>
+            </div>
+            <hr>
+        <div class="col-md-2"></div>
+
+        <div class="col-md-8" style="/*border:dotted;*/ display: flex;align-items: center;justify-content: center;padding-bottom: 10px;">
+            <form method="POST" action="/Upload_image/"  enctype="multipart/form-data">
+                {% csrf_token %}
+                <p><input type="file"  accept="image/*" name="image" id="file"  onchange="loadFile(event)" style="display: none;"></p>
+                <p><label class="form-control" style="border:outset;cursor: pointer;" for="file" >Upload Image</label></p>
+                <p><img style="background-color: white;" name="image" id="output" height="250" width="250" /></p>
+                <input class="btn btn-primary" type="submit" name="Submit">
+               
+            </form>
+        </div>
+
+        <div class="col-md-2"></div>
+    </div>
+    </div>
+
+
+</div>
+
+ <script>
+var loadFile = function(event) {
+    var image = document.getElementById('output');
+    image.src = URL.createObjectURL(event.target.files[0]);
+};
+</script>
+
+{%endblock%}

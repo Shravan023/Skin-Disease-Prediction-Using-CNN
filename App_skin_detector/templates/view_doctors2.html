@@ -1,0 +1,42 @@
+{% extends 'Base.html'%}
+    {% block content%}
+    {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+    {%load static%}
+
+
+
+<div style="background-image:  url('/media/manage_medicine.jpg'); background-repeat:no-repeat;background-size:cover;  height:687px; width:100%;">
+    <h1>View Doctors</h1>
+
+    <div class="container">
+        <table class="table table-dark table-hover table-stripped">
+            <thead>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Speciality</th>
+                <th>Department</th>
+            </thead>
+
+            <tbody>
+                {%for i in details%}
+                <tr>
+                    <td>{{i.id}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.Gender}}</td>
+                    <td>{{i.Speciality}}</td>
+                    <td>{{i.Department}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{%endblock%}

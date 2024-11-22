@@ -1,0 +1,280 @@
+{% extends 'Base.html'%}
+    {% block content%}
+    {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+    {%load static%}
+
+
+
+<div style="background-image:  url('/media/manage_medicine.jpg'); background-repeat:no-repeat;background-size:cover;  height:687px; width:100%;">
+    <h1>Manage Medicine</h1>
+
+    <div class="container">
+
+        <div style="display:flex;justify-content: right;align-items: right;">
+            <form action="/Add_Medicine/" method="POST" enctype="multipart/form-data">
+                <a class="btn btn-warning" href="/Add_Medicine/">Add Medicine</a>
+            </form>
+        </div>
+
+        <br>
+        <table class="table table-dark table-hover table-stripped">
+            <thead>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th style="text-align: center;" colspan="3">Action</th>
+                      
+            </thead>
+
+            <tbody>
+               {%for i in details%}
+                <tr>
+                    <td>{{i.id}}</td>
+                    <td>{{i.medicine_name}}</td>
+
+                    <td><input type="button" class="btn btn-info "id=" {{i.id}}
+                                                            ${{i.medicine_name}}
+                                                            ${{i.medicine_on}}
+                                                            ${{i.medicine_type}}
+                                                            ${{i.description}}
+                                                            ${{i.price}}"
+                             value="View" onclick="View(this)" style="width: 100%;">
+                    </td>
+
+                    <td><input type="button" class="btn btn-secondary "id="  {{i.id}}
+                                                            ${{i.medicine_name}}
+                                                            ${{i.medicine_on}}
+                                                            ${{i.medicine_type}}
+                                                            ${{i.description}}
+                                                            ${{i.price}}"
+                             value="Update" onclick="Update(this)" style="width: 100%;">
+                    </td>
+                    <td><a style="width: 100%;" class="button btn btn-danger" href="/delete_medicine/{{i.id}}">Delete</a></td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal to view Doctor -->
+
+    <!-- Modal for view button -->
+<!-- View Modal -->
+<div class="modal fade" id="myModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Medicine Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+             <div class="container">
+        <form class="row g-3" method="POST" action="/View_Medicine/" enctype="multipart/form-data">
+            {% csrf_token %}
+              <div class="col-md-6">
+                    <label  class="form-label">ID</label>
+                    <input type="text" class="form-control" name="id" id="id"  readonly>
+              </div>
+
+              <div class="col-md-6">
+                    <label  class="form-label">Medicine Name</label>
+                    <input type="text" class="form-control" name="medicinename" id="medicinename"  readonly>
+              </div>
+
+              <div class="col-md-6">
+                    <label for="inputCity" class="form-label">Medicine On</label>
+                    <input type="text" class="form-control" id="medicine_on" name="medicine_on"   readonly>
+              </div>
+              <div class="col-md-6">
+                    <label for="inputCity" class="form-label">Type of Medicine</label>
+                    <input type="text" class="form-control" id="medicine_type" name="medicine_type"   readonly>
+              </div>
+              <div class="col-md-6">
+                    <label for="inputCity" class="form-label">Description</label>
+                    <input type="text" class="form-control" id="description" name="description"   readonly>
+              </div>
+              <br>
+              <div class="col-md-12">
+                <label for="inputState" class="form-label">Price</label>
+                <input class="form-control" type="text" name="price" id="price" readonly >
+              </div>
+   
+        </form>
+    </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ---------------------------------------------------------------------------------------------------------------------- -->
+
+<!-- Modal For Update -->
+<div class="modal fade" id="myModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Medicine Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+             <div class="container">
+        <form class="row g-3" method="POST" action="/Update_Medicine/" enctype="multipart/form-data">
+            {% csrf_token %}
+              <div class="col-md-6">
+                    <label  class="form-label">ID</label>
+                    <input type="text" class="form-control" name="update_id" id="update_id"  readonly>
+              </div>
+
+              <div class="col-md-6">
+                    <label  class="form-label">Medicine Name</label>
+                    <input type="text" class="form-control" name="update_medicinename" id="update_medicinename"  >
+              </div>
+
+              <div class="col-md-6">
+                    <label for="inputCity" class="form-label">Medicine On</label>
+        <input type="text" name="update_medicine_on" id="update_medicine_on" value="" class="form-control"  min="1" required>
+                <!-- <select name="medicine_on"  class="form-select" required>
+                    <option id="update_medicine_on" value="update_medicine_on" selected></option>
+                    <option value="1">Acne</option>
+                    <option value="2">Actinic keratosis</option>
+                    <option value="3">Basal Cell Carcinoma</option>
+                    <option value="4">Melanoma</option>
+              </select >  -->
+              </div>
+              <div class="col-md-6">
+                    <label for="inputCity" class="form-label">Update Medicine On</label>
+                    <!-- <input type="text" class="form-control" id="updatemedicine_type" name="updatemedicine_type"   readonly> -->
+                <select name="medicine_in"  class="form-select" required>
+                    <option id="update_medicine_on" value="update_medicine_on" selected></option>
+                    <option value="Acne and Rosacea Photos">Acne and Rosacea</option>
+                    <option value="Atopic Dermatitis Photos">Atopic Dermatitis</option>
+                    <option value="Eczema Photos">Eczema</option>
+                    <option value="Psoriasis pictures Lichen Planus and related diseases">Psoriasis pictures Lichen Planus and related diseases</option>
+                    <option value="Seborrheic Keratoses and other Benign Tumors">Seborrheic Keratoses and other Benign Tumors</option>
+                    <option value="Hair Loss Photos Alopecia and other Hair Diseases">Hair Loss Photos Alopecia and other Hair Diseases</option>
+                    <option value="Tinea Ringworm Candidiasis and other Fungal Infections">Tinea Ringworm Candidiasis and other Fungal Infections</option>
+                    <option value="Urticaria Hives">Urticaria Hives</option>
+                </select > 
+              </div>
+              <div class="col-md-6">
+                    <label for="inputCity" class="form-label">Type of Medicine</label>
+                    <input type="text" class="form-control" id="updatemedicine_type" name="updatemedicine_type"   readonly>
+              </div>
+
+              <br>
+              <div class="col-md-6">
+                <label for="inputState" class="form-label">Update Type of Medicine</label>
+                <!-- <input class="form-control" type="text" name="update_price" id="update_price"  >
+              </div> -->
+                <select name="medicine_of"  class="form-select" required>
+                    <option id="updatemedicine_type" value="updatemedicine_type" selected></option>
+                    <option value="Liquid">Liquid</option>
+                    <option value="Injection">Injection</option>
+                    <option value="Tablet">Tablet</option>
+                    <option value="Capsules">Capsules</option>
+                    <option value="Topical Medicine">Topical Medicine</option>
+                </select >
+                </div>
+              <div class="col-md-6">
+                    <label for="inputCity" class="form-label">Description</label>
+                    <input type="text" class="form-control" id="update_description" name="update_description"   readonly>
+              </div>
+              <div class="col-md-6">
+                <label for="inputState" class="form-label">Update Description</label>
+                <!-- <input class="form-control" type="text" name="update_price" id="update_price"  >
+              </div> -->
+                <select name="medicine_can"  class="form-select" required>
+                    <option id="update_description" value="update_description" selected></option>
+                    <option value="After Lunch">After Lunch</option>
+                    <option value="After Dinner">After Dinner</option>
+                    <option value="Before lunch">Before lunch</option>
+                    <option value="Before Dinner">Before Dinner</option>
+                    <option value="Before Breakfast">Before Breakfast</option>
+                    <option value="After Breakfast">After Breakfast</option>
+                </select >
+                </div>
+              <div class="col-md-6">
+                    <label for="inputCity" class="form-label">Price</label>
+                    <input type="text" class="form-control" id="update_price" name="update_price">
+              </div>
+
+
+
+              <div class="col-md-12 mb-3" style="display:flex;justify-content: center;align-items: center;">
+                  <input type="submit" name="" value="Update" class="btn btn-secondary">
+              </div>
+
+              
+        </form>
+    </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ---------------------------------------------------------------------------------------------------------------------- -->
+
+
+</div>
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    function View(me){
+        var id            = me.id;
+        var str           = id.split("$");
+        var ids           = str[0];
+        var medicine_name = str[1];
+        var medicine_on   = str[2];
+        var medicine_type = str[3];
+        var description   = str[4];
+        var price         = str[5];
+       
+
+        document.getElementById("id").value             = ids;
+        document.getElementById("medicinename").value   = medicine_name;
+        document.getElementById("medicine_on").value    = medicine_on;
+        document.getElementById("medicine_type").value  = medicine_type;
+        document.getElementById("description").value    = description;
+        document.getElementById("price").value          = price;
+        $('#myModal1').modal('show');
+    }
+
+
+    function Update(me){
+      $('#myModal2').modal('show');
+        var id            = me.id;
+        var str           = id.split("$");
+        var ids           = str[0];
+        var medicine_name = str[1];
+        var medicine_on   = str[2];
+        var medicine_type = str[3];
+        var description   = str[4];
+        var price         = str[5];
+
+        document.getElementById("update_id").value            = ids;
+        document.getElementById("update_medicinename").value  = medicine_name;
+        document.getElementById("update_medicine_on").value   = medicine_on;
+        document.getElementById("updatemedicine_type").value  = medicine_type;
+        document.getElementById("update_description").value   = description;
+        document.getElementById("update_price").value         = price;
+        
+    }
+
+
+
+
+
+
+  
+
+    </script>
+
+{%endblock%}

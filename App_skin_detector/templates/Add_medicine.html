@@ -1,0 +1,99 @@
+{% extends 'Base.html'%}
+    {% block content%}
+    {% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+
+        {% endfor %}
+
+    {% endif %}
+    {%load static%}
+
+<style>
+    .box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.box > div { /*The > denotes only the first or immediate child will be affected*/
+  width: 600px;
+  height: auto;
+  /*border: dotted;
+*/
+}
+</style>
+
+<div style="background-image:  url('/media/manage_medicine.jpg'); background-repeat:no-repeat;background-size:cover;  height:687px; width:100%;">
+    
+    <div class="box">
+    <div class="shadow p-3 mb-5 bg-body rounded">
+        <div class="row">
+            <div class="col-md-4">
+                <img style="height: 200px;width: 180px;" src="/media/dr.jpg">
+
+            </div>
+
+            <div class="col-md-8">
+                <form method="POST" action="/Add_Medicine/" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h1>Add Medicine</h1>
+                <hr>
+                <label class="form-label">Medicine Name</label>
+                <input class="form-control" type="text" name="medicine_name" required>
+                <br>
+                <label class="form-label">Medicine Effective On</label>
+                <select class="form-select" aria-label="Default select example" name="medicine_on">
+                    <option selected>Please Select</option>
+                    <option value="Acne and Rosacea Photos">Acne and Rosacea</option>
+                    <option value="Atopic Dermatitis Photos">Atopic Dermatitis</option>
+                    <option value="Eczema Photos">Eczema</option>
+                    <option value="Psoriasis pictures Lichen Planus and related diseases">Psoriasis pictures Lichen Planus and related diseases</option>
+                    <option value="Seborrheic Keratoses and other Benign Tumors">Seborrheic Keratoses and other Benign Tumors</option>
+                    <option value="Hair Loss Photos Alopecia and other Hair Diseases">Hair Loss Photos Alopecia and other Hair Diseases</option>
+                    <option value="Tinea Ringworm Candidiasis and other Fungal Infections">Tinea Ringworm Candidiasis and other Fungal Infections</option>
+                    <option value="Urticaria Hives">Urticaria Hives</option>
+                </select>
+                <label class="form-label">Type of Medicine</label>
+                <select class="form-select" aria-label="Default select example" name="medicine_type">
+                    <option selected>Please Select</option>
+                    <option >Liquid</option>
+                    <option >Injection</option>
+                    <option >Tablet</option>
+                    <option >Capsules</option>
+                    <option >Topical Medicine</option>
+                </select>
+                <label class="form-label">Description</label>
+                <select class="form-select" aria-label="Default select example" name="description">
+                    <option selected>Please Select</option>
+                    <option >After Lunch</option>
+                    <option >After Dinner</option>
+                    <option >Before Lunch</option>
+                    <option >Before Dinner</option>
+                    <option >Before Breakfast</option>
+                    <option >After Breakfast</option>
+                </select>
+
+
+
+
+               
+                
+                <br>
+
+                <label class="form-label">Price</label>
+                <input class="form-control" type="text" name="price"  id="phone" required>
+                <br>
+
+
+                <input class="btn btn-secondary" type="submit" name="" value="Add Medicine">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+{%endblock%}
